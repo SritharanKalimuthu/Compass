@@ -71,14 +71,14 @@ useEffect(() => {
 
   return (
     <>
-      <main className='main h-screen max-w-screen flex flex-col tracking-wider bg-gradient-to-t from-[#cc95c0] to-[#7aa1d2]'>
-        <section className='min-h-screen w-full' data-bgcolor="linear-gradient(to right, #ddd6f3, #faaca8)" id="hero">
+      <main className='main h-screen max-w-screen flex flex-col tracking-wider bg-gradient-to-t from-[#FFEFBA] to-[#FFFFFF]'>
+        <section className='min-h-screen w-full' data-bgcolor="linear-gradient(to right, #FFEFBA, #FFFFFF)" id="hero">
           <Hero />
         </section>
-        <section className='min-h-screen w-full' data-bgcolor="linear-gradient(to left, #dae2f8, #d6a4a4)" id="about">
+        <section className='min-h-screen w-full' data-bgcolor="linear-gradient(to top, #FFFFFF, #FFEFBA)" id="about">
           <About />
         </section>
-        <section className='min-h-screen w-full' data-bgcolor="linear-gradient(to right, #9796f0, #fbc7d4)" id="contact">
+        <section className='min-h-screen w-full' data-bgcolor="linear-gradient(to right, #FFEFBA, #FFFFFF)" id="contact">
           <Contact />
         </section>
       </main>

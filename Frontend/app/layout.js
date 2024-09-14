@@ -1,5 +1,5 @@
 import "./globals.css";
-import { ubuntu } from "./fonts";
+import { ubuntu } from "./components/fonts";
 
 export const metadata = {
   title: "Create Next App",
@@ -9,7 +9,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={ubuntu.className}>{children}</body>
+      <body className={`${ubuntu.className} antialiased`}>{children}</body>
     </html>
   );
 }

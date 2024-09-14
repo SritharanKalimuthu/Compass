@@ -6,9 +6,9 @@ import backgroundImage from "../Assets/pattern.png"
 const About = () => {
   return (
     <div className='relative flex items-center justify-center'>
-      <div className="absolute -z-10 w-full rotate-180 opacity-50">
+      {/* <div className="absolute -z-10 w-full rotate-180 opacity-50">
           <Image src={backgroundImage} alt='' className=''/>
-        </div>
+        </div>  */}
       <div className='md:w-3/4'>
           <div className='text-center p-10 px-8 rounded-lg'> 
             <h1 className='text-2xl md:text-4xl uppercase font-extrabold mb-2 leading-loose my-4'>Share your CompassLink from your Instagram, TikTok, Twitter and other bios.</h1>
@@ -22,10 +22,10 @@ const About = () => {
             </div>
             <div>
                 <DotLottieReact
-                    src="https://lottie.host/ca5ff85a-ce16-4d48-bf28-888644c38efc/tj0qELNyxL.json"
+                    src="https://lottie.host/276f03d7-d989-41d5-978c-1fc1703df236/6e9vIOGcZm.json"
                     loop
                     autoplay
-                    className='md:w-[40rem] md:h-[35rem] h-[20rem]'
+                    className='md:w-[35rem] md:h-[25rem] h-[20rem]'
                   />
             </div>
           </div>

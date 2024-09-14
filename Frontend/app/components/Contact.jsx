@@ -9,9 +9,9 @@ const Contact = () => {
   return (
     <>
           <div className='relative'>
-            <div className="absolute -z-10 w-full opacity-50">
+            {/* <div className="absolute -z-10 w-full opacity-50">
               <Image src={backgroundImage} alt='' className=''/>
-            </div>
+            </div> */}
             {/* Support title */}
             <h1 className="text-center text-5xl font-extrabold pt-28 mb-1 capitalize">
               Get in touch

@@ -1,14 +1,65 @@
 "use client"
-import Link from 'next/link';
+import { useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faXmark, faPersonWalkingArrowRight, faPersonCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import backgroundImage from "../../Assets/pattern.png"
 
 
 const page = () => {
+
+    const [formData, setFormData] = useState({});
+    const [isChecked, setIsChecked] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const router = useRouter();
+    const today = new Date();
+    const [month, date, year] = today.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' }).split(' ');
+
+    console.log(`${month} ${date} ${year}`);
+
+
+    const handleInput=(e)=>{
+        setErrorMessage('')
+        setFormData({...formData,[e.target.name] : e.target.value});
+    }
+
+    const handleCheckbox = (event) => {
+        setIsChecked(event.target.checked);
+        if (event.target.checked) {
+        setErrorMessage('');
+        }
+    };
+
+    const handleRegistration = async(e) =>{
+        e.preventDefault();
+        if (!isChecked) {
+            setErrorMessage('You must agree to the terms and conditions before submitting.');
+        } else {
+            const res = await fetch("http://localhost:3001/auth/register",{
+                            method:'POST',
+                            headers:{
+                                "Content-Type":"application/json",
+                            },
+                            body:JSON.stringify(formData),
+                    })
+
+            const data = await res.json();
+            console.log(data);
+            if(data.success){
+                router.push('/profile');
+            }else if(!data.success){
+                setErrorMessage("Check Your email and try again later!");
+            }
+        }
+    }
+
   return (
-    <div className="min-h-screen bg-gradient-to-l from-[#cc95c0] to-[#7aa1d2] text-gray-900 flex justify-center">
+    <div className="min-h-screen bg-gradient-to-l from-[#FFEFBA] to-[#FFFFFF] text-gray-900 flex justify-center">
+        <div className="absolute bottom-0 z-0 w-full opacity-50">/
+                <Image src={backgroundImage} alt='' className=''/>
+        </div>
         <div className="relative max-w-screen-xl m-0 sm:m-10 bg-stone-300 shadow sm:rounded-lg flex justify-center flex-1">
             <div className="lg:w-1/2 p-6 sm:p-12">
                 <div className='flex items-center justify-center'>
@@ -19,19 +70,23 @@ const page = () => {
                     <h1 className="text-xl xl:text-2xl uppercase font-extrabold">
                         Create your account now
                     </h1>
-                    <div className="w-full flex-1 mt-6">
+                    <form className="w-full flex-1 mt-6" onSubmit={handleRegistration}>
                         <div className="mx-auto max-w-xs">
                             <input
                                 className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                type="email" name='email' placeholder="Email" />
+                                type="text" name='name' placeholder="Name" onChange={handleInput} required/>
                             <input
                                 className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                type="password" name='password' placeholder="Password" />
+                                type="email" name='email' placeholder="Email" onChange={handleInput} required/>
                             <input
+                                className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5 mb-2"
+                                type="password" name='password' placeholder="Password" onChange={handleInput} required/>
+                            {/* <input
                                 className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                type="password" name='confirm password' placeholder="Confirm Password" />
-                            <p className="mt-6 px-2 text-xs text-gray-600 leading-5">
-                              <input type='checkbox' name='checkbox' className='mr-2 pt-1 p-2'/>
+                                type="password" name='password' placeholder="Confirm Password" onChange={handleInput}/> */}
+                            {errorMessage? <p className="mt-2 px-2 text-xs text-red-600 leading-5">{errorMessage}</p>:null}
+                            <p className="mt-4 px-2 text-xs text-gray-600 leading-5">
+                              <input type='checkbox' name='checkbox' className='mr-2 pt-1 p-2' onChange={handleCheckbox}/>
                                 I agree to abide by compass's <a className="border-b border-gray-500 border-dotted cursor-pointer">
                                     Terms of Service
                                 </a> and its <a className="border-b border-gray-500 border-dotted cursor-pointer">
@@ -39,13 +94,13 @@ const page = () => {
                                 </a>
                             </p>
                             <div className='flex items-center gap-5'>
-                                <Link href="../../auth/signin"
+                                <a href="../../auth/signin"
                                     className="mt-4 tracking-wide font-semibold bg-indigo-700 text-gray-100 w-full py-2 rounded-full hover:bg-indigo-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                     <FontAwesomeIcon icon={faPersonWalkingArrowRight} className='w-6 h-6'/>
                                     <span className="ml-3 text-sm">
                                         Log In
                                     </span>
-                                </Link>
+                                </a>
                                 <button
                                     className="mt-4 tracking-wide font-semibold bg-green-700 text-gray-100 w-full py-2 rounded-full hover:bg-green-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                     <FontAwesomeIcon icon={faPersonCirclePlus} className='w-6 h-6'/>
@@ -61,7 +116,7 @@ const page = () => {
                               </div>
                             </div>
                             <div className="flex flex-col items-center mt-8 gap-5">
-                              <button
+                              <a
                                 className="w-full max-w-xs font-bold shadow-sm rounded-full py-2 bg-blue-800 text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
                                 <div className="bg-white p-2 rounded-full">
                                     <svg className="w-4" viewBox="0 0 533.5 544.3">
@@ -82,19 +137,10 @@ const page = () => {
                                 <span className="ml-4 text-sm">
                                     Sign Up with Google
                                 </span>
-                              </button>
-                              <button
-                                className="w-full max-w-xs font-bold shadow-sm rounded-full py-2 bg-black text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
-                                <div className="bg-white text-black p-1 rounded-full">
-                                    <FontAwesomeIcon icon={faXTwitter} className='w-6 h-5'/>
-                                </div>
-                                <span className="ml-4 text-sm">
-                                    Sign Up with Twitter
-                                </span>
-                              </button>
+                              </a>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div className="flex-1 bg-gradient-to-t from-[#ED4264] to-[#FFEDBC] text-center hidden md:flex">
@@ -108,7 +154,7 @@ const page = () => {
                 />
             </div>
             <div className='absolute top-0 right-0 p-3 cursor-pointer'>
-              <Link href="/"><FontAwesomeIcon icon={faXmark} className='p-1 bg-none text-stone-600 rounded-full w-4 h-6'/></Link>
+              <a href="/"><FontAwesomeIcon icon={faXmark} className='p-1 bg-none text-stone-600 rounded-full w-4 h-6'/></a>
             </div>
         </div>
     </div>

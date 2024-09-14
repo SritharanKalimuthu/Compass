@@ -1,14 +1,47 @@
 "use client"
-import Link from 'next/link';
+import { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCompass, faXmark, faPersonWalkingArrowRight, faPersonCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import backgroundImage from '../../Assets/pattern.png';
 
 const page = () => {
+
+    const [formData, setFormData] = useState({});
+    const [errorMessage, setErrorMessage] = useState('');
+    const router = useRouter();
+
+    const handleInput=(e)=>{
+        setFormData({...formData,[e.target.name] : e.target.value});
+    }
+
+    const handleLogin = async(e) =>{
+        e.preventDefault();
+
+        await fetch("http://localhost:3001/auth/login",{
+                    method:'POST',
+                    headers:{
+                        "Content-Type":"application/json",
+                    },
+                    body:JSON.stringify(formData),
+            }).then(
+                (res)=> res.json()
+            ).then(
+                (data)=>{
+                    console.log(data);
+                    if(data.success){
+                        router.push('/profile');
+                    }else if(!data.success){
+                        setErrorMessage("Check Your email and try again later!");
+                    }
+                }
+            )
+    }
+
   return (
-            <div className="min-h-screen bg-gradient-to-l from-[#9796f0] to-[#fbc7d4] text-gray-900 flex justify-center">
+            <div className="min-h-screen bg-gradient-to-l from-[#FFEFBA] to-[#FFFFFF] text-gray-900 flex justify-center">
                 <div className="absolute bottom-0 z-0 w-full opacity-50">/
                 <Image src={backgroundImage} alt='' className=''/>
                 </div>
@@ -34,13 +67,14 @@ const page = () => {
                             </h1>
                             <p className='text-center font-medium my-5'>Enter your credentials to get your compass.</p>
                             <div className="w-full flex-1 mt-6">
-                                <div className="mx-auto max-w-xs">
+                                <form onSubmit={handleLogin} className="mx-auto max-w-xs" >
                                     <input
                                         className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                        type="email" placeholder="Email" />
+                                        type="email" name='email' placeholder="Email" onChange={handleInput} required/>
                                     <input
                                         className="w-full px-8 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                        type="password" placeholder="Password" />
+                                        type="password" name='password' placeholder="Password" onChange={handleInput} required/>
+                                    {errorMessage? <p className="mt-5 px-2 text-xs text-red-600 leading-5">{errorMessage}</p>:null}
                                     <div className='flex items-center gap-5'>
                                         <button href="../../auth/signin"
                                             className="mt-4 tracking-wide font-semibold bg-indigo-700 text-gray-100 w-full py-2 rounded-full hover:bg-indigo-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
@@ -58,19 +92,19 @@ const page = () => {
                                     </div>
                                     </div>
                                     <p className='p-2 py-4 relative right-0 text-sm text-stone-800 my-2'>New User? To Register click below,</p>
-                                    <Link href="../../auth/signup"
+                                    <a href="../../auth/signup"
                                             className="mt-4 tracking-wide font-semibold bg-green-700 text-gray-100 w-full py-2 rounded-full hover:bg-green-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                             <FontAwesomeIcon icon={faPersonCirclePlus} className='w-6 h-6'/>
                                             <span className="ml-3 text-sm">
                                                 Register
                                             </span>
-                                    </Link>
-                                </div>
+                                    </a>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div className='absolute top-0 right-0 p-3 cursor-pointer'>
-                    <Link href="/"><FontAwesomeIcon icon={faXmark} className='p-1 bg-none text-stone-600 rounded-full w-4 h-5'/></Link>
+                    <a href="/"><FontAwesomeIcon icon={faXmark} className='p-1 bg-none text-stone-600 rounded-full w-4 h-5'/></a>
                     </div>
                 </div>
             </div>
