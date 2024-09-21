@@ -16,10 +16,10 @@ export default function Home() {
 useEffect(() => {
     // Initialize Smooth Scrollbar
     const scrollBar = Scrollbar.init(document.querySelector('.main'), {
-      damping: 0.06,
+      damping: 0.3,
       delegateTo: document,
       alwaysShowTracks: false,
-      speed: 3,
+      speed: 5,
     });
 
     // Set ScrollTrigger defaults

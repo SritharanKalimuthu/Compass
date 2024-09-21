@@ -17,7 +17,7 @@ const page = () => {
     const today = new Date();
     const [month, date, year] = today.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' }).split(' ');
 
-    console.log(`${month} ${date} ${year}`);
+    // console.log(`${month} ${date} ${year}`);
 
 
     const handleInput=(e)=>{
@@ -37,7 +37,7 @@ const page = () => {
         if (!isChecked) {
             setErrorMessage('You must agree to the terms and conditions before submitting.');
         } else {
-            const res = await fetch("http://localhost:3001/auth/register",{
+            const res = await fetch("http://localhost:8000/auth/register",{
                             method:'POST',
                             headers:{
                                 "Content-Type":"application/json",
@@ -94,13 +94,6 @@ const page = () => {
                                 </a>
                             </p>
                             <div className='flex items-center gap-5'>
-                                <a href="../../auth/signin"
-                                    className="mt-4 tracking-wide font-semibold bg-indigo-700 text-gray-100 w-full py-2 rounded-full hover:bg-indigo-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-                                    <FontAwesomeIcon icon={faPersonWalkingArrowRight} className='w-6 h-6'/>
-                                    <span className="ml-3 text-sm">
-                                        Log In
-                                    </span>
-                                </a>
                                 <button
                                     className="mt-4 tracking-wide font-semibold bg-green-700 text-gray-100 w-full py-2 rounded-full hover:bg-green-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                     <FontAwesomeIcon icon={faPersonCirclePlus} className='w-6 h-6'/>
@@ -115,7 +108,22 @@ const page = () => {
                                   Or
                               </div>
                             </div>
-                            <div className="flex flex-col items-center mt-8 gap-5">
+                            <div>
+                                <p className="leading-none inline-block text-sm text-gray-600 tracking-wide font-medium bg-stone-300">Already Have an Account</p>
+                                <a href="../../auth/signin"
+                                    className="mt-4 tracking-wide font-semibold bg-indigo-700 text-gray-100 w-full py-2 rounded-full hover:bg-indigo-800 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                                    <FontAwesomeIcon icon={faPersonWalkingArrowRight} className='w-6 h-6'/>
+                                    <span className="ml-3 text-sm">
+                                        Log In
+                                    </span>
+                                </a>
+                            </div>
+                            {/* <div className="my-3 border-b border-stone-400 text-center">
+                              <div
+                                  className=" w-1/3 leading-none pt-2 px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-stone-300 transform translate-y-1/2">
+                              </div>
+                            </div> */}
+                            {/* <div className="flex flex-col items-center mt-8 gap-5">
                               <a
                                 className="w-full max-w-xs font-bold shadow-sm rounded-full py-2 bg-blue-800 text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
                                 <div className="bg-white p-2 rounded-full">
@@ -138,7 +146,7 @@ const page = () => {
                                     Sign Up with Google
                                 </span>
                               </a>
-                            </div>
+                            </div> */}
                         </div>
                     </form>
                 </div>
